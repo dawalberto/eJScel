@@ -1,12 +1,13 @@
+import fs = require('fs')
 import { file } from './interfaces'
 
 class File implements file {
 
     constructor(name: string, extension: string = 'txt', separator: string = '|', path: string = './') {
-        name = name
-        extension = extension
-        separator = separator
-        path = path
+        this.name = name
+        this.extension = extension
+        this.separator = separator
+        this.path = path
     }
 
     name: string
@@ -17,4 +18,3 @@ class File implements file {
 }
 
 let myFile = new File('myFile')
-console.log(myFile)
