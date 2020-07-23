@@ -1,20 +1,21 @@
 import fs = require('fs')
-import { file } from './interfaces'
+import { file, fileConstructor } from './interfaces'
+import { correctPath } from './utilities'
 
 class File implements file {
 
-    constructor(name: string, extension: string = 'txt', separator: string = '|', path: string = './') {
-        this.name = name
-        this.extension = extension
-        this.separator = separator
-        this.path = path
+    constructor(constructorData:fileConstructor) {
+        this.name = constructorData.name
+        this.extension = constructorData.extension ? constructorData.extension : 'txt'
+        this.separator = constructorData.separator ? constructorData.separator : '|'
+        this.path = constructorData.path ? correctPath(constructorData.path) : './'
     }
 
-    name: string
-    extension: string
-    separator: string
-    path: string
+    name:string
+    extension:string
+    separator:string
+    path:string
 
 }
 
-let myFile = new File('myFile')
+let myFile = new File({name: 'myFile', path: 'testDir\\'})
