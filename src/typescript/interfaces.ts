@@ -1,3 +1,6 @@
+import { encoding } from './enums'
+
+
 export interface file {
 
     name:string
@@ -5,7 +8,7 @@ export interface file {
     separator:string
     path:string
     file:string
-    encoding:string
+    encoding:encoding
     numCols:number
 
 }
@@ -16,7 +19,7 @@ export interface fileConstructor {
     extension?:string
     separator?:string
     path?:string
-    encoding?:string
+    encoding?:encoding
     numCols?:number
 
 }

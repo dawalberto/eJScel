@@ -1,4 +1,6 @@
+import fs = require('fs')
 import { file, fileConstructor, column } from './interfaces'
+import { encoding } from './enums'
 import { correctPath } from './utilities'
 
 class File implements file {
@@ -7,7 +9,7 @@ class File implements file {
         this.name = constructorData.name
         this.extension = constructorData.extension ? constructorData.extension : 'txt'
         this.path = constructorData.path ? correctPath(constructorData.path) : '../data/to_process/'
-        this.encoding = constructorData.encoding ? constructorData.encoding : 'latin1'
+        this.encoding = constructorData.encoding ? constructorData.encoding : encoding.latin1
         this.file = `${this.path}${this.name}.${this.extension}`
         this.separator = constructorData.separator ? constructorData.separator : '|'
         this.numCols = constructorData.numCols ? constructorData.numCols : 0
@@ -16,7 +18,7 @@ class File implements file {
     name:string
     extension:string
     path:string
-    encoding:string
+    encoding:encoding
     file:string
     separator:string
     numCols:number
@@ -29,6 +31,10 @@ class File implements file {
 
     setColsUnion(cols:column[]): void {
         this.colsUnion = cols
+    }
+
+    processFile() {
+        const data = fs.readFileSync(this.file, this.encoding)
     }
 
 }
