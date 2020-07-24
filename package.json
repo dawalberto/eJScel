@@ -5,7 +5,7 @@
   "main": "ejscel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc ./src/typescript/ejscel.ts --outDir ./src -w"
+    "tsc": "tsc ./src/typescript/ejscel.ts --outDir ./dist -w"
   },
   "author": "Alberto García Sola",
   "license": "ISC",
