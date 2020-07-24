@@ -19,6 +19,11 @@ export const throws = {
         code: 4,
         error: 'duplicateNameFile',
         description: 'File with this name is already created'
+    },
+    missingColsRequestBody: {
+        code: 5,
+        error: 'missingColsRequestBody',
+        description: 'Missing columns on request body'
     }
 
 }

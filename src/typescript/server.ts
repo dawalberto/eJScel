@@ -1,11 +1,22 @@
 import * as ejscel from './ejscel'
-import { fileConstructor } from './interfaces'
+import { fileConstructor, column } from './interfaces'
 import { throws } from './throws'
 import express = require('express')
 const app = express()
 
 app.use(express.json())
 
+
+app.get('/files', (req, res) => {
+
+    res.json({
+        ok: true,
+        response: {
+            files: ejscel.Files
+        }
+    })
+
+})
 
 app.post('/createFile', (req, res) => {
 
@@ -24,7 +35,9 @@ app.post('/createFile', (req, res) => {
         
         res.json({
             ok: true,
-            newFile
+            response: {
+                file: newFile
+            }
         })
     } catch {
         res.json({
@@ -35,13 +48,34 @@ app.post('/createFile', (req, res) => {
 
 })
 
+app.put('/setCols/:fileName', (req, res) => {
 
+    let fileName:string = req.params.fileName
+    let cols:column[] = req.body.cols
 
-app.get('/files', (req, res) => {
+    let file:ejscel.File[] = ejscel.findFileByName(fileName)
+
+    if(file.length === 0) {
+        res.json({
+            ok: false,
+            error: throws.noSuchFileOrDirectory
+        })
+    }
+
+    if(cols === undefined || cols.length === 0) {
+        res.json({
+            ok: false,
+            error: throws.missingColsRequestBody
+        })
+    }
+
+    file[0].setCols(cols)
 
     res.json({
         ok: true,
-        files: ejscel.Files
+        response: {
+            file: file[0]
+        }
     })
 
 })
