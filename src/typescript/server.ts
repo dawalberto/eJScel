@@ -2,7 +2,6 @@ import * as ejscel from './ejscel'
 import { fileConstructor, column } from './interfaces'
 import { throws } from './throws'
 import express = require('express')
-import { encoding } from './enums'
 const app = express()
 
 app.use(express.json())
@@ -48,6 +47,58 @@ app.post('/createFile', (req, res) => {
     }
 
 })
+
+app.post('/createCompleteFile', (req, res) => {
+
+    try {
+
+        let constructorData:fileConstructor = req.body.constructorData
+        let cols:column[] = req.body.cols
+        let rows:string[][] = req.body.rows
+    
+        if (ejscel.findFileByName(constructorData.name).length > 0) {
+            res.json({
+                ok: false,
+                error: throws.duplicateNameFile
+            })
+        }
+    
+        if(cols === undefined || cols.length === 0) {
+            res.json({
+                ok: false,
+                error: throws.missingColsRequestBody
+            })
+        }
+    
+        if(rows === undefined || rows.length === 0) {
+            res.json({
+                ok: false,
+                error: throws.noDataToWrite
+            })
+        }
+        
+        let newFile = new ejscel.File(constructorData)
+        newFile.setCols(cols)
+        newFile.processData(rows)
+        newFile.writeDataSync()
+        ejscel.Files.push(newFile)
+        
+        res.json({
+            ok: true,
+            response: {
+                file: newFile
+            }
+        })
+
+    } catch (e) {
+        res.json({
+            ok: false,
+            error: e
+        })        
+    }
+    
+})
+
 
 app.put('/setCols/:fileName', (req, res) => {
 
