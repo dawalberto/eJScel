@@ -5,6 +5,8 @@ import { throws } from './throws'
 import { correctPath } from './utilities'
 
 
+export const Files:File[] = []
+
 export class File implements file {
 
     constructor(constructorData:fileConstructor) {
@@ -79,5 +81,9 @@ export class File implements file {
 
     }
 
+}
+
+export function findFileByName(name:string): File[] {
+    return Files.filter(file => file.name === name)
 }
 

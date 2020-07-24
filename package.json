@@ -1,16 +1,19 @@
 {
   "name": "ejscel",
   "version": "1.0.0",
-  "description": "Tool to process and export data",
-  "main": "ejscel.js",
+  "description": "Tool to process and export data and join files",
+  "main": "dist/server.js",
+  "repository": "https://github.com/dawalberto/ejscel.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc ./src/typescript/ejscel.ts --outDir ./dist -w"
+    "tsc": "tsc ./src/typescript/server.ts --outDir ./dist -w"
   },
   "author": "Alberto García Sola",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.7",
     "@types/node": "^14.0.24",
+    "express": "^4.17.1",
     "typescript": "^3.9.7"
   }
 }

@@ -9,6 +9,16 @@ export const throws = {
         code: 2,
         error: 'noSuchFileOrDirectory',
         description: 'No such file or directory'
+    },
+    incorrectConstructorData: {
+        code: 3,
+        error: 'incorrectConstructorData',
+        description: 'Incorrect constructor data to new file'
+    },
+    duplicateNameFile: {
+        code: 4,
+        error: 'duplicateNameFile',
+        description: 'File with this name is already created'
     }
 
 }
