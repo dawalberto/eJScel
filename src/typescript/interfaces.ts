@@ -20,7 +20,7 @@ export interface fileConstructor {
     separator?:string
     path?:string
     encoding?:encoding
-    numCols?:number
+    numCols:number
 
 }
 
