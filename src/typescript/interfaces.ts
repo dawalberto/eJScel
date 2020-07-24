@@ -10,6 +10,7 @@ export interface file {
     file:string
     encoding:encoding
     numCols:number
+    records:string[][]
 
 }
 
@@ -20,7 +21,6 @@ export interface fileConstructor {
     separator?:string
     path?:string
     encoding?:encoding
-    numCols:number
 
 }
 

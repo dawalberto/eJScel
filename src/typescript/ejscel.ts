@@ -5,7 +5,7 @@ import { throws } from './throws'
 import { correctPath } from './utilities'
 
 
-class File implements file {
+export class File implements file {
 
     constructor(constructorData:fileConstructor) {
         this.name = constructorData.name
@@ -14,7 +14,6 @@ class File implements file {
         this.encoding = constructorData.encoding ? constructorData.encoding : encoding.latin1
         this.file = `${this.path}${this.name}.${this.extension}`
         this.separator = constructorData.separator ? constructorData.separator : '|'
-        this.numCols = constructorData.numCols ? constructorData.numCols : 0
     }
 
     name:string
@@ -26,9 +25,11 @@ class File implements file {
     numCols:number
     cols:column[]
     colsUnion:column[]
+    records:string[][] = []
 
     setCols(cols:column[]): void {
         this.cols = cols
+        this.numCols = cols.length
     }
 
     setColsUnion(cols:column[]): void {
@@ -46,7 +47,7 @@ class File implements file {
 
     }
 
-    isFileStructureCorrect() {
+    isFileStructureCorrect(): boolean {
 
         if (!this.fileExists()) {
             throw throws.noSuchFileOrDirectory
@@ -67,12 +68,12 @@ class File implements file {
         const data:string = fs.readFileSync(this.file, this.encoding)
 
         const lines:string[] = data.split(/\r?\n/)
-        let splitedLine:string[]
+        let fields:string[]
 
-        lines.map(line => {
+        lines.forEach(line => {
 
-            splitedLine = line.split(this.separator)
-            console.log(splitedLine)
+            fields = line.split(this.separator)
+            this.records.push(fields)
 
         })
 
@@ -80,6 +81,3 @@ class File implements file {
 
 }
 
-let myTestFile:File = new File({name: 'test', encoding: encoding.utf_8, numCols: 7})
-console.log(myTestFile)
-myTestFile.processFile();
