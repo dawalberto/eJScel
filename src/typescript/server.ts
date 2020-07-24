@@ -2,6 +2,7 @@ import * as ejscel from './ejscel'
 import { fileConstructor, column } from './interfaces'
 import { throws } from './throws'
 import express = require('express')
+import { encoding } from './enums'
 const app = express()
 
 app.use(express.json())
@@ -77,6 +78,46 @@ app.put('/setCols/:fileName', (req, res) => {
             file: file[0]
         }
     })
+
+})
+
+app.put('/fillData/:fileName', (req, res) => {
+
+    let fileName:string = req.params.fileName
+    let rows:string[][] = req.body.rows
+
+    let file:ejscel.File[] = ejscel.findFileByName(fileName)
+
+    if(file.length === 0) {
+        res.json({
+            ok: false,
+            error: throws.noSuchFileOrDirectory
+        })
+    }
+
+    if(rows === undefined || rows.length === 0) {
+        res.json({
+            ok: false,
+            error: throws.noDataToWrite
+        })
+    }
+
+    try {
+        file[0].processData(rows)
+        file[0].writeDataSync()
+
+        res.json({
+            ok: true,
+            response: {
+                file: file[0]
+            }
+        })
+    } catch(e) {
+        res.json({
+            ok: false,
+            error: e
+        })
+    }
 
 })
 

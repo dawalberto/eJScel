@@ -24,6 +24,21 @@ export const throws = {
         code: 5,
         error: 'missingColsRequestBody',
         description: 'Missing columns on request body'
-    }
+    },
+    distinctNumColumnsThanSpecified: {
+        code: 6,
+        error: 'distinctNumColumnsThanSpecified',
+        description: 'Distinct number of columns than specified'
+    },
+    fileWritingFile: {
+        code: 7,
+        error: 'fileWritingFile',
+        description: 'File writing file'
+    },    
+    noDataToWrite: {
+        code: 7,
+        error: 'noDataToWrite',
+        description: 'No data to write'
+    }    
 
 }

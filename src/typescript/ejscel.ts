@@ -27,7 +27,8 @@ export class File implements file {
     numCols:number
     cols:column[]
     colsUnion:column[]
-    records:string[][] = []
+    rows:string[][] = []
+    dataToWrite:string = ''
 
     setCols(cols:column[]): void {
         this.cols = cols
@@ -61,24 +62,47 @@ export class File implements file {
 
     }
 
-    processFile():void {
+    processData(data:string[][]): void {
 
-        if (!this.isFileStructureCorrect()) {
-            throw throws.structureFileIncorrect
-        }
+        data.forEach((row, i) => {
 
-        const data:string = fs.readFileSync(this.file, this.encoding)
+            if (row.length !== this.numCols) {
+                this.rows = []
+                this.dataToWrite = ''
+                throw throws.distinctNumColumnsThanSpecified
+            }
 
-        const lines:string[] = data.split(/\r?\n/)
-        let fields:string[]
-
-        lines.forEach(line => {
-
-            fields = line.split(this.separator)
-            this.records.push(fields)
+            this.rows.push(row)
+            this.fillDataToWrite(row, i === data.length - 1)
 
         })
 
+    }
+
+    fillDataToWrite(row:string[], last:boolean) {
+
+        row.forEach((field, i) => {
+
+            if (i === row.length - 1 && !last) {
+                this.dataToWrite += `${field}${this.separator}\n`
+            } else {
+                this.dataToWrite += `${field}${this.separator}`
+            }
+
+        })
+
+    }
+
+    writeDataSync(): void {
+
+        try {
+            fs.writeFileSync(this.file, this.dataToWrite, this.encoding)
+            this.dataToWrite = ''
+            console.log(`${this.file} saved`)
+        } catch(e) {
+            throw throws.fileWritingFile
+        }
+    
     }
 
 }

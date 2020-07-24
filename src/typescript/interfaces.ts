@@ -10,7 +10,8 @@ export interface file {
     file:string
     encoding:encoding
     numCols:number
-    records:string[][]
+    rows:string[][]
+    dataToWrite?:string
 
 }
 
